@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cargando… — StreamVault</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="header-left">
+      <button class="hamburger-btn" id="sidebar-toggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" class="logo">Stream<em>Vault</em></a>
+    </div>
+
+    <div class="header-search">
+      <input type="text" id="search-input" placeholder="Buscar videos…" autocomplete="off">
+      <button id="search-btn" aria-label="Buscar">🔍</button>
+    </div>
+
+    <div class="header-right">
+      <a href="index.html" class="upload-btn">
+        <span>←</span>
+        <span>Catálogo</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav class="sidebar hidden" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-section">
+      <a class="sidebar-item" href="index.html">
+        <span class="icon">🏠</span> Inicio
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-label">Categorías</p>
+      <div id="sidebar-cats"></div>
+    </div>
+  </nav>
+
+  <!-- ══ APP BODY ══ -->
+  <div class="app-body sidebar-collapsed" id="app-body">
+    <main class="player-layout" id="player-layout">
+
+      <!-- Columna principal -->
+      <section class="player-col" aria-label="Reproductor">
+
+        <!-- Video -->
+        <div class="player-video-wrap">
+          <video id="video-player" controls preload="metadata">
+            Tu navegador no soporta video HTML5.
+          </video>
+        </div>
+
+        <!-- Info -->
+        <div class="player-info-section" id="player-info">
+          <div class="loading-state">
+            <div class="spinner"></div>
+            <p>Cargando video…</p>
+          </div>
+        </div>
+
+        <!-- Comentarios -->
+        <section class="comments-section" id="comments-section" aria-label="Comentarios" hidden>
+          <h2 class="section-heading" id="comments-heading">Comentarios</h2>
+
+          <div class="comment-composer">
+            <div class="composer-avatar">U</div>
+            <div class="composer-input-wrap">
+              <textarea
+                class="composer-textarea"
+                id="comment-input"
+                placeholder="Añade un comentario…"
+                rows="1"
+              ></textarea>
+              <div class="composer-actions" id="composer-actions" style="display:none;">
+                <button class="btn-ghost" id="cancel-comment-btn">Cancelar</button>
+                <button class="btn-primary" id="post-comment-btn">Comentar</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="comments-list" role="list"></div>
+        </section>
+
+      </section>
+
+      <!-- Aside recomendados -->
+      <aside class="player-aside" aria-label="Videos recomendados">
+        <h2 class="aside-heading">Recomendados</h2>
+        <div class="rec-list" id="rec-list">
+          <div class="loading-state">
+            <div class="spinner"></div>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast" role="alert"></div>
+
+  <script src="js/player.js"></script>
+</body>
+</html>

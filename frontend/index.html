@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StreamVault — Descubre contenido sin límites</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="header-left">
+      <button class="hamburger-btn" id="sidebar-toggle" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" class="logo">Stream<em>Vault</em></a>
+    </div>
+
+    <div class="header-search">
+      <input type="text" id="search-input" placeholder="Buscar videos…" autocomplete="off">
+      <button id="search-btn" aria-label="Buscar">🔍</button>
+    </div>
+
+    <div class="header-right">
+      <button class="upload-btn" id="open-upload-btn">
+        <span>＋</span>
+        <span>Subir</span>
+      </button>
+      <button class="upload-btn user-btn" id="user-btn" type="button">
+        <span>👤</span>
+        <span id="user-btn-text">Entrar</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══ SIDEBAR ══ -->
+  <nav class="sidebar" id="sidebar" aria-label="Navegación principal">
+    <div class="sidebar-section">
+      <a class="sidebar-item active" data-filter="home" href="#">
+        <span class="icon">🏠</span> Inicio
+      </a>
+      <a class="sidebar-item" data-filter="recent" href="#">
+        <span class="icon">🕐</span> Recientes
+      </a>
+      <a class="sidebar-item" data-filter="recommended" href="#">
+        <span class="icon">✨</span> Recomendados
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">Categorías</p>
+      <div id="sidebar-cats"></div>
+    </div>
+  </nav>
+
+  <!-- ══ APP BODY ══ -->
+  <div class="app-body" id="app-body">
+
+    <!-- Chips de categoría -->
+    <div class="chips-bar" id="chips-bar" role="toolbar" aria-label="Filtrar por categoría">
+      <button class="chip active" data-id="all">Todos</button>
+    </div>
+
+    <!-- Grid de videos -->
+    <main class="videos-grid-section">
+      <div class="videos-grid" id="videos-grid" role="list">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Cargando videos…</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ══ MODAL UPLOAD ══ -->
+  <div class="modal-overlay" id="upload-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <article class="modal">
+      <header class="modal-header">
+        <h2 class="modal-title" id="modal-title">Subir Video</h2>
+        <button class="modal-close" id="close-modal-btn" aria-label="Cerrar">✕</button>
+      </header>
+
+      <form id="upload-form" novalidate>
+        <div class="form-group">
+          <label class="form-label" for="upload-title">Título *</label>
+          <input class="form-input" type="text" id="upload-title" placeholder="Dale un título a tu video" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="upload-desc">Descripción</label>
+          <textarea class="form-textarea" id="upload-desc" placeholder="Cuéntanos de qué trata…"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="upload-category">Categoría *</label>
+          <select class="form-select" id="upload-category" required>
+            <option value="">Selecciona una categoría</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Archivo de video *</label>
+          <div class="drop-zone" id="video-drop-zone">
+            <div class="drop-zone-icon">🎬</div>
+            <p><strong>Arrastra aquí</strong> tu video<br>o haz clic para seleccionar</p>
+            <p id="video-file-name" class="file-chosen"></p>
+            <input type="file" id="video-file-input" accept="video/*">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Miniatura (opcional)</label>
+          <div class="drop-zone" id="thumb-drop-zone">
+            <div class="drop-zone-icon">🖼️</div>
+            <p><strong>Arrastra</strong> una imagen<br>o haz clic para seleccionar</p>
+            <p id="thumb-file-name" class="file-chosen"></p>
+            <input type="file" id="thumb-file-input" accept="image/*">
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" class="btn-ghost" id="cancel-upload-btn">Cancelar</button>
+          <button type="submit" class="btn-primary" id="upload-submit-btn">Publicar video</button>
+        </div>
+      </form>
+    </article>
+  </div>
+
+  <!-- ══ MODAL AUTHORIZATION ══ -->
+  <div class="modal-overlay" id="auth-modal" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
+    <article class="modal">
+      <header class="modal-header">
+        <h2 class="modal-title" id="auth-modal-title">Iniciar sesión</h2>
+        <button class="modal-close" id="close-auth-btn" aria-label="Cerrar">✕</button>
+      </header>
+
+      <div class="auth-tabs" role="tablist">
+        <button type="button" class="auth-tab active" data-mode="login">Ingresar</button>
+        <button type="button" class="auth-tab" data-mode="register">Registrarse</button>
+      </div>
+
+      <form id="auth-form" novalidate>
+        <div id="auth-fieldset"></div>
+        <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top:1.5rem;">
+          <button type="button" class="btn-ghost" id="auth-cancel-btn">Cancelar</button>
+          <button type="submit" class="btn-primary" id="auth-submit-btn">Continuar</button>
+        </div>
+      </form>
+    </article>
+  </div>
+
+  <!-- ══ MODAL USERS ══ -->
+  <div class="modal-overlay" id="users-modal" role="dialog" aria-modal="true" aria-labelledby="users-modal-title">
+    <article class="modal modal-large">
+      <header class="modal-header">
+        <h2 class="modal-title" id="users-modal-title">Usuarios</h2>
+        <button class="modal-close" id="close-users-btn" aria-label="Cerrar">✕</button>
+      </header>
+
+      <div class="users-shell">
+        <aside class="users-list-panel">
+          <div class="users-panel-header">
+            <h3>Lista de usuarios</h3>
+            <button type="button" class="btn-ghost" id="refresh-users-btn">Actualizar</button>
+          </div>
+          <div id="users-list" class="users-list"></div>
+        </aside>
+
+        <section class="user-details-panel">
+          <div id="user-details" class="user-details">
+            <div class="empty-state">
+              <div class="empty-icon">👥</div>
+              <p>Selecciona un usuario para ver su perfil.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </div>
+
+  <!-- ══ TOAST ══ -->
+  <div class="toast" id="toast" role="alert"></div>
+
+  <script src="js/index.js"></script>
+</body>
+</html>
